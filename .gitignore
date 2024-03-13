@@ -2,6 +2,8 @@
 
 # dependencies
 node_modules/
+yarn.lock
+package-lock.json
 
 # Expo
 .expo/
@@ -15,6 +17,10 @@ web-build/
 *.p12
 *.key
 *.mobileprovision
+
+# Jest
+__snapshots__
+coverage
 
 # Metro
 .metro-health-check*

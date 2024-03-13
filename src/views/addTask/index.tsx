@@ -12,27 +12,17 @@ import {
 import DatePicker from "../../components/dateTimePicker";
 import { styles } from "./styles";
 import { TaskProps } from "../../services/taskService";
+import useViewModel from "./model";
 
-interface AddTaskProps {
+export interface AddTaskProps {
   onCancel?: () => void;
   onSave?: (task: TaskProps) => void;
   visible: boolean;
 }
 
 const AddTask: React.FC<AddTaskProps> = ({ onCancel, onSave, visible }) => {
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState(new Date());
-  const save = () => {
-    const task: TaskProps = {
-      description,
-      estimatedAt: date,
-      doneAt: null,
-    };
-
-    onSave && onSave(task);
-    setDate(new Date());
-    setDescription("");
-  };
+  const { description, date, save, setDate, setDescription } =
+    useViewModel(onSave);
 
   return (
     <Modal
@@ -50,7 +40,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onCancel, onSave, visible }) => {
           style={styles.input}
           value={description}
           placeholder="Informe a descrição da tarefa..."
-          onChangeText={(text) => setDescription(text)}
+          onChangeText={setDescription}
         />
         <DatePicker date={date} onChange={setDate} />
         <View style={styles.buttons}>
