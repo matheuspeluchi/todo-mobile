@@ -7,7 +7,7 @@ describe("AddTaskViewModel", () => {
     const { result } = renderHook<AddTaskViewModel, { (): void }>((onSave) =>
       useViewModel(onSave)
     );
-    act(() => result.current.setDescription(taskName));
+    await act(() => result.current.setDescription(taskName));
 
     await waitFor(() => expect(result.current.description).toBe(taskName));
   });
