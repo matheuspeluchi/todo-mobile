@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     width: "20%",
     alignItems: "center",
     justifyContent: "center",
+    height: 48,
   },
   description: {
     fontFamily: "Lato",

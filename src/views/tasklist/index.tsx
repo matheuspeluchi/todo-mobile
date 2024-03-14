@@ -45,7 +45,7 @@ const TaskList: React.FC = () => {
       <AddTask visible={showModal} onCancel={toggleModal} onSave={addTask} />
       <ImageBackground source={todayImg} style={styles.background}>
         <View style={styles.iconBar}>
-          <TouchableOpacity onPress={toggleFilter}>
+          <TouchableOpacity style={styles.iconToggle} onPress={toggleFilter}>
             <Icon
               name={showDoneTasks ? "eye" : "eye-slash"}
               size={20}

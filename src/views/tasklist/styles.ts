@@ -35,6 +35,14 @@ export const styles = StyleSheet.create({
     marginHorizontal: 20,
     justifyContent: 'flex-end',
     marginTop: Platform.OS === 'ios' ? 50 : 30,
+    
+  },
+  iconToggle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 48,
+    width: 48,
+    
   },
   addButon: {
     position: 'absolute',

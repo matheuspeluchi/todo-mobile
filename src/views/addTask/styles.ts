@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   input: {
     fontFamily: commonStyles.fontFamiy,
     paddingHorizontal: 15,
-    height: 40,
+    height: 50,
     margin: 15,
     backgroundColor: '#FFF',
     borderWidth: 1,

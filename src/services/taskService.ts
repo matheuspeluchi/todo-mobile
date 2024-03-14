@@ -24,7 +24,6 @@ export const TaskService = {
 
   getFilter: async (): Promise<boolean> => {    
     const filter = await AsyncStorage.getItem("filter");
-    console.log(filter === 'true');
     return (filter === 'true');
   },
 

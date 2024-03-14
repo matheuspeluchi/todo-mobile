@@ -38,7 +38,7 @@ const Task: React.FC<ITaskProps> = ({ task, toggle, action }) => {
       >
         <View style={styles.container}>
           <TouchableWithoutFeedback onPress={() => toggle(id)}>
-            <View style={styles.checkContainer}>
+            <View style={[styles.checkContainer]}>
               <CheckView doneAt={doneAt} />
             </View>
           </TouchableWithoutFeedback>

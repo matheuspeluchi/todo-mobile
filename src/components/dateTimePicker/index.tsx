@@ -29,8 +29,11 @@ const DatePicker: React.FC<DatePickerProps> = ({ date, onChange: setDate }) => {
   const stringDate = moment(date).format("ddd, D [de] MMMM [de] YYYY");
   if (Platform.OS === "android") {
     datePicker = (
-      <View>
-        <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+      <View style={styles.root}>
+        <TouchableOpacity
+          style={styles.root}
+          onPress={() => setShowDatePicker(true)}
+        >
           <Text style={styles.date}>{stringDate}</Text>
         </TouchableOpacity>
         {showDatePicker && datePicker}
