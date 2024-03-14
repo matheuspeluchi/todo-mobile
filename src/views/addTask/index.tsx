@@ -39,6 +39,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onCancel, onSave, visible }) => {
         <TextInput
           style={styles.input}
           value={description}
+          placeholderTextColor={"#000000"}
           placeholder="Informe a descrição da tarefa..."
           onChangeText={setDescription}
         />

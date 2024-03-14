@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   container: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#ffffff',
   },
   header: {
     fontFamily: commonStyles.fontFamiy,
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
     height: 50,
     margin: 15,
-    backgroundColor: '#FFF',
+    backgroundColor: '#FFFF',
     borderWidth: 1,
     borderColor: '#e3e3e3',
     borderRadius: 6,

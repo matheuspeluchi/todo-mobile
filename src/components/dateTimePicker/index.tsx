@@ -23,6 +23,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ date, onChange: setDate }) => {
       dateFormat="dayofweek day month"
       locale="pt-br"
       display="spinner"
+      themeVariant="dark"
       onChange={(_, dt) => handleDatePicker(dt as Date)}
     />
   );

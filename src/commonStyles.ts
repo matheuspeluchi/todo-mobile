@@ -4,7 +4,7 @@ export default {
   colors: {
     today: '#B13B44',
     secondary: '#FFF',
-    mainText: '#222',
+    mainText: 'black',
     subText: '#555',
   },
 };
