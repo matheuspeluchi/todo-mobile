@@ -1,9 +1,8 @@
 {
   "expo": {
-    "name": "todo-rn",
-    "slug": "todo-rn",
+    "name": "Todo",
+    "slug": "todo",
     "version": "1.0.0",
-    "entryPoint": "./src/App.tsx",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,13 +15,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.matheuspeluchi.todo"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.matheuspeluchi.todo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,10 +32,17 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/Lato.ttf"]
+          "fonts": [
+            "./assets/fonts/Lato.ttf"
+          ]
         }
       ]
-    ]
-
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f1b7fbe1-6030-4032-b3a0-bc3720f643bd"
+      }
+    },
+    "owner": "matheuspeluchi"
   }
 }

@@ -58,7 +58,7 @@ const TaskList: React.FC = () => {
           <Text style={styles.subtitle}>{today}</Text>
         </View>
       </ImageBackground>
-      <View style={styles.taskList}>
+      <View style={styles.taskList} accessibilityLabel="task-list">
         <FlatList
           data={visibleTasks}
           keyExtractor={(task) => `${task.id}`}

@@ -32,7 +32,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onCancel, onSave, visible }) => {
       animationType="slide"
     >
       <TouchableWithoutFeedback onPress={onCancel}>
-        <View style={styles.root} />
+        <View style={styles.root} accessibilityLabel="cancel-modal" />
       </TouchableWithoutFeedback>
       <View style={styles.container}>
         <Text style={styles.header}>New Task</Text>
@@ -53,7 +53,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onCancel, onSave, visible }) => {
         </View>
       </View>
       <TouchableWithoutFeedback onPress={onCancel}>
-        <View style={styles.root} />
+        <View style={styles.root} accessibilityLabel="cancel-modal" />
       </TouchableWithoutFeedback>
     </Modal>
   );

@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   },
   taskList: {
     flex: 7,
+
   },
   background: {
     flex: 3,
