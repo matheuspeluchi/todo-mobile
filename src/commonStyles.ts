@@ -1,6 +1,6 @@
 
 export default {
-  fontFamiy: 'Lato',
+  fontFamiy: 'RobotoRegular',
   colors: {
     today: '#B13B44',
     secondary: '#FFF',
