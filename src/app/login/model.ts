@@ -1,8 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react"
-import { FirebaseService } from "../../services/firebaseSevice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { authenticate, createNewAccount } from "../../services/database/respository";
 
-const dbservice= new FirebaseService();
 interface LoginViewModel {
   email: string,
   password: string,
@@ -27,10 +26,10 @@ export const useViewModel = (): LoginViewModel => {
 
   const signinOrSignup = async (): Promise<void> =>{
     if(stageNew){
-      const user = await dbservice.createNewAccount(email, password, name);
+      const user = await createNewAccount(email, password, name);
       console.log(user)
     }else{
-      const user = await dbservice.auth(email, password);
+      const user = await authenticate(email, password);
       AsyncStorage.setItem('user', JSON.stringify(user))
       console.log(user)
     }
