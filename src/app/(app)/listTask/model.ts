@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { Alert } from "react-native";
-import { TaskProps, TaskService } from "../../services/taskService";
+ import { TaskProps, getTasks, saveTask } from "../../../services/taskService";
+import { useSession } from "@/context";
 
 export interface TaskListViewModel {
   visibleTasks: TaskProps[],
@@ -17,6 +18,7 @@ export interface TaskListViewModel {
 }
 
 const useViewModel = (): TaskListViewModel => {
+  const {user} = useSession()
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [visibleTasks, setVisibleTasks] = useState<TaskProps[]>(tasks);
   const [showDoneTasks, setShowDoneTasks] = useState(false);
@@ -30,13 +32,13 @@ const useViewModel = (): TaskListViewModel => {
       }
     });
     setTasks(taskList);
-    TaskService.saveTasks(taskList);
+    // TaskService.saveTasks(taskList);
   };
 
   const removeTask = (taskId: number | undefined): void => {
     const list = tasks.filter((task) => task.id !== taskId);
     setTasks([...list]);
-    TaskService.saveTasks(list);
+    // TaskService.saveTasks(list);
   };
 
   const addTask = (newTask: TaskProps) => {
@@ -45,10 +47,10 @@ const useViewModel = (): TaskListViewModel => {
       return;
     }
     const list = [...tasks];
-    list.push({ ...newTask, id: Math.random() });
+    list.push({ ...newTask, id: String(Math.random()) });
     setTasks([...list]);
     setShowModal(false);
-    TaskService.saveTasks(list);
+    saveTask(newTask, user!.id);
   };
 
   const filterTask = useCallback(async () => {
@@ -63,17 +65,18 @@ const useViewModel = (): TaskListViewModel => {
   }, [showDoneTasks, tasks]);
 
   const loadState = async (): Promise<void> => {
-    const tasks = await TaskService.getTasks();
-    const filter = await TaskService.getFilter();
+    
+    const tasks = await getTasks(user!.id);
+    // const filter = await TaskService.getFilter();
     if (tasks) {
       setTasks(tasks);
-      setShowDoneTasks(filter);
+      setShowDoneTasks(true);
     }
   };
 
   const toggleFilter = async () => {
     setShowDoneTasks(!showDoneTasks);
-    await TaskService.saveFilter(!showDoneTasks);
+    // await TaskService.saveFilter(!showDoneTasks);
   };
 
   const toggleModal = () => {

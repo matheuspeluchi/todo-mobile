@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { TaskProps } from "../../services/taskService";
+import { TaskProps } from "@services/taskService";
 
 
 export interface AddTaskViewModel {

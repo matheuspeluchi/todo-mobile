@@ -9,17 +9,19 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import todayImg from "../../../assets/imgs/today.jpg";
+import todayImg from "../../../../assets/imgs/today.jpg";
 
-import commonStyles from "../../commonStyles";
-import Task from "../../components/task";
 import AddTask from "../addTask";
 import useViewModel from "./model";
 import { styles } from "./styles";
-import BaseContainer from "../../components/baseContainer";
+import BaseContainer from "../../../components/baseContainer";
+import commonStyles from "../../../commonStyles";
+import Task from "../../../components/task";
+import { useSession } from "@/context";
 
 const TaskList: React.FC = () => {
   const today = moment().locale("pt-br").format("ddd, D [de] MMMM");
+  const { signOut, user } = useSession();
   const {
     visibleTasks,
     showDoneTasks,
@@ -32,6 +34,7 @@ const TaskList: React.FC = () => {
     toggleFilter,
     loadState,
   } = useViewModel();
+  console.log(user);
 
   useEffect(() => {
     filterTask();
@@ -50,6 +53,13 @@ const TaskList: React.FC = () => {
             <TouchableOpacity style={styles.iconToggle} onPress={toggleFilter}>
               <Icon
                 name={showDoneTasks ? "eye" : "eye-slash"}
+                size={20}
+                color={commonStyles.colors.secondary}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.iconToggle} onPress={signOut}>
+              <Icon
+                name="sign-out"
                 size={20}
                 color={commonStyles.colors.secondary}
               />

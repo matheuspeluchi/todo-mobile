@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { Slot, SplashScreen } from "expo-router";
-import { Stack } from "expo-router";
 import * as Font from "expo-font";
+import { SessionProvider } from "../context";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
-  const {session, isLoading} = useSession
-
   const [fontsLoaded, fontError] = Font.useFonts({
     Lato: require("../../assets/fonts/Lato.ttf"),
     RobotoBlack: require("../../assets/fonts/Roboto-Black.ttf"),
@@ -29,8 +27,9 @@ export default function Layout() {
   }
 
   // Render the children routes now that all the assets are loaded.
-  return(
-    <Session 
-  <Slot />
+  return (
+    <SessionProvider>
+      <Slot />
+    </SessionProvider>
   );
 }

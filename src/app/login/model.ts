@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction, useState } from "react"
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authenticate, createNewAccount } from "../../services/database/respository";
+import { createNewAccount } from "../../services/database/userRespository";
+import { useSession } from "@/context";
+import { router } from "expo-router";
+import { Alert } from "react-native";
 
 interface LoginViewModel {
   email: string,
@@ -14,10 +16,10 @@ interface LoginViewModel {
   setConfirmPassword: Dispatch<SetStateAction<string>>,
   setStageNew: Dispatch<SetStateAction<boolean>>
   signinOrSignup: ()=>void,
-  signup: ()=>void,
 }
 
 export const useViewModel = (): LoginViewModel => {
+  const {signIn}  = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -29,14 +31,15 @@ export const useViewModel = (): LoginViewModel => {
       const user = await createNewAccount(email, password, name);
       console.log(user)
     }else{
-      const user = await authenticate(email, password);
-      AsyncStorage.setItem('user', JSON.stringify(user))
-      console.log(user)
+      const isAuthenticated = await signIn(email, password,)
+      if(isAuthenticated){
+        router.push("/")        
+      }else{
+        Alert.alert("Usuário ou senha inválidos!")
+      }
+      
+
     }
-  }
-
-  const signup = ()=>{
-
   }
 
   return { 
@@ -51,6 +54,5 @@ export const useViewModel = (): LoginViewModel => {
     name,
     setName,
     signinOrSignup,
-    signup
   }
 }

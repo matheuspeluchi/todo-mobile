@@ -1,5 +1,5 @@
 import {Platform, StyleSheet} from 'react-native';
-import commonStyles from '../../commonStyles';
+import commonStyles from '../../../commonStyles';
 
 export const styles = StyleSheet.create({
   root: {

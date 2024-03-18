@@ -9,9 +9,9 @@ import {
   View,
 } from "react-native";
 
-import DatePicker from "../../components/dateTimePicker";
+import DatePicker from "../../../components/dateTimePicker";
 import { styles } from "./styles";
-import { TaskProps } from "../../services/taskService";
+import { TaskProps } from "../../../services/taskService";
 import useViewModel from "./model";
 
 export interface AddTaskProps {

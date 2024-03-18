@@ -14,6 +14,9 @@ const appConfig = {
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "experiments": {
+      "tsconfigPaths": true
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -34,7 +37,8 @@ const appConfig = {
       "bundler": "metro"
     },
     "plugins": [
-      ["expo-router"],
+      "expo-router",
+      "expo-secure-store",
       [
         "expo-font",
         {

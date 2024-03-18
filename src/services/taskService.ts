@@ -1,34 +1,41 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import {getTasks as ListTask, saveTasks } from './database/taskRepository'
+import { UserProps } from "@/types";
 
 export type TaskProps = {
-  id?: number;
+  id?: string;
+  userId:string,
   description: string;
   estimatedAt: Date;
   doneAt: Date | null;
 };
-export const TaskService = {
-  getTasks: async (): Promise<TaskProps[]> => {
-    const data = await AsyncStorage.getItem("tasks");
-    if (data) {
-      const tasks: TaskProps[] = JSON.parse(data);
-      return tasks;
-    }
-    return [];
-  },
 
-  saveTasks: async (tasks: TaskProps[]): Promise<void> => {
-    const stringfy = JSON.stringify(tasks)
-    await AsyncStorage.setItem("tasks", stringfy);
-  },
+export type AppState = {
+  filter: boolean,
+  tasks: TaskProps[]
+}
+export async function getTasks(userId: string): Promise<TaskProps[]> {
+  console.log("entrou")
+  try {
+    const data = await ListTask(userId)
+   
+    return data;
+    
+  } catch (error) {
+    throw error
+  }
+  }
 
-  getFilter: async (): Promise<boolean> => {    
+  export async function saveTask (task: TaskProps, userId: string): Promise<void> {
+     await saveTasks(task, userId);
+  }
+
+  export async function getFilter (): Promise<boolean> {    
     const filter = await AsyncStorage.getItem("filter");
     return (filter === 'true');
-  },
+  }
 
-  saveFilter: async (filter: boolean): Promise<void> => {
+  export async function  saveFilter (filter: boolean): Promise<void> {
     AsyncStorage.setItem("filter", String(filter))
   }
 
-};
