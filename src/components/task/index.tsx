@@ -4,16 +4,16 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import CheckView from "../checkView";
 import moment from "moment";
 import "moment/locale/pt-br";
-import { TaskProps } from "../../services/taskService";
 import { styles } from "./styles";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SwipebleRightContent from "../swipebleRightContent";
 import SwipebleLeftContent from "../swipebleLeftContent";
+import { TaskProps } from "@/types";
 
 interface ITaskProps {
   task: TaskProps;
-  toggle: (id: number | undefined) => void;
-  action: (id: number | undefined) => void;
+  toggle: (id: string) => void;
+  action: (id: string) => void;
 }
 
 const Task: React.FC<ITaskProps> = ({ task, toggle, action }) => {
@@ -25,19 +25,19 @@ const Task: React.FC<ITaskProps> = ({ task, toggle, action }) => {
   const date = doneAt ? doneAt : estimatedAt;
   const formattedDate = moment(date).locale("pt-br").format("ddd, D [de] MMMM");
   const removeTask = (direction: string) => {
-    if (direction === "left") action(task.id);
+    if (direction === "left") action(task.id!);
   };
   return (
     <GestureHandlerRootView>
       <Swipeable
         onSwipeableOpen={(direction) => removeTask(direction)}
         renderRightActions={() => (
-          <SwipebleRightContent taskId={task.id} action={action} />
+          <SwipebleRightContent taskId={task.id!} action={action} />
         )}
         renderLeftActions={() => <SwipebleLeftContent />}
       >
         <View style={styles.container}>
-          <TouchableWithoutFeedback onPress={() => toggle(id)}>
+          <TouchableWithoutFeedback onPress={() => toggle(id!)}>
             <View style={[styles.checkContainer]}>
               <CheckView doneAt={doneAt} />
             </View>

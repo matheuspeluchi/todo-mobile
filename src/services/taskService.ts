@@ -1,33 +1,48 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {getTasks as ListTask, saveTasks } from './database/taskRepository'
-import { UserProps } from "@/types";
+import { TaskProps } from "@/types";
+import { Dispatch, SetStateAction } from "react";
+import { addDoc, collection, onSnapshot, deleteDoc, doc, updateDoc, FieldValue } from "firebase/firestore";
+import { firestore } from "./database/firebaseConfig";
 
-export type TaskProps = {
-  id?: string;
-  userId:string,
-  description: string;
-  estimatedAt: Date;
-  doneAt: Date | null;
-};
+
 
 export type AppState = {
   filter: boolean,
   tasks: TaskProps[]
 }
-export async function getTasks(userId: string): Promise<TaskProps[]> {
-  console.log("entrou")
+export async function getTasks(userId: string, callback: (userId: any)=> void):Promise<void>{
   try {
-    const data = await ListTask(userId)
-   
-    return data;
-    
-  } catch (error) {
-    throw error
+    const tasksRef = collection(firestore, 'tasks', userId, 'tasks')
+     await onSnapshot(tasksRef, (result)=>{
+      const data = result.docs;
+      const list =  data.map( item => {
+        const task = item.data();
+        return {
+          id: item.id,
+          description: task.description,
+          estimatedAt: task.estimatedAt.toDate(),
+          doneAt: task.doneAt
+        }
+      })
+      callback(list)
+    })        
+  } catch (error:any) {
+  console.log(error.message)  
   }
-  }
+}
 
-  export async function saveTask (task: TaskProps, userId: string): Promise<void> {
-     await saveTasks(task, userId);
+  export async function updateTask (task: TaskProps, userId: string): Promise<void> {
+    const ref = doc(firestore, "tasks", userId,"tasks", task.id!)
+    const data ={
+      description: task.description,
+      estimatedAt: task.estimatedAt,
+      doneAt: task.doneAt
+    }
+    await updateDoc(ref, data )
+  }
+  export async function createTask (task: TaskProps, userId: string): Promise<void> {
+    const ref = collection(firestore, 'tasks', userId, 'tasks')
+    await addDoc(ref, task )
   }
 
   export async function getFilter (): Promise<boolean> {    
@@ -37,5 +52,11 @@ export async function getTasks(userId: string): Promise<TaskProps[]> {
 
   export async function  saveFilter (filter: boolean): Promise<void> {
     AsyncStorage.setItem("filter", String(filter))
+  }
+
+  export async function deleteTask(userId: string, taskId: string): Promise<void> {
+    const docRef = doc(firestore, 'tasks', userId, 'tasks', taskId )
+    await deleteDoc(docRef);
+
   }
 

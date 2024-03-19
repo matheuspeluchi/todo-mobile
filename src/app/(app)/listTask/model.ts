@@ -1,44 +1,45 @@
-import { useCallback, useState } from "react";
-import { Alert } from "react-native";
- import { TaskProps, getTasks, saveTask } from "../../../services/taskService";
 import { useSession } from "@/context";
+import { TaskProps, UserProps } from "@/types";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { Alert } from "react-native";
+import { createTask, deleteTask, getTasks, updateTask } from "../../../services/taskService";
 
 export interface TaskListViewModel {
   visibleTasks: TaskProps[],
   showModal: boolean,
   showDoneTasks: boolean,
-  removeTask: (taskId: number | undefined) => void,
+  removeTask: (taskId:string) => void,
   addTask: (newTask: TaskProps) => void,
   filterTask: () => void,
-  toggletask: (id: number | undefined) => void,
-  loadState: () => void,
-  toggleModal:  () => void
-  toggleFilter:  () => void
+  toggletask: (id: string) => void,
+  loadState: (userId: string) => void,
+  toggleModal:  () => void,
+  toggleFilter:  () => void,
+  setTasks: Dispatch<SetStateAction<TaskProps[]>>
 
 }
 
 const useViewModel = (): TaskListViewModel => {
-  const {user} = useSession()
+  const {user: stringUser, signOut, isUserLoading} = useSession()
+  const user = stringUser? JSON.parse(stringUser!) as UserProps : null;
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [visibleTasks, setVisibleTasks] = useState<TaskProps[]>(tasks);
   const [showDoneTasks, setShowDoneTasks] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const toggletask = (id: number | undefined) => {
+  const toggletask = (id: string) => {
     const taskList = [...tasks];
     taskList.forEach((task) => {
       if (task.id === id) {
         task.doneAt = task.doneAt ? null : new Date();
+        updateTask(task, user!.id)
       }
     });
-    setTasks(taskList);
-    // TaskService.saveTasks(taskList);
+  
   };
 
-  const removeTask = (taskId: number | undefined): void => {
-    const list = tasks.filter((task) => task.id !== taskId);
-    setTasks([...list]);
-    // TaskService.saveTasks(list);
+  const removeTask =  (taskId: string): void => {
+    deleteTask(user!.id, taskId)
   };
 
   const addTask = (newTask: TaskProps) => {
@@ -46,11 +47,8 @@ const useViewModel = (): TaskListViewModel => {
       Alert.alert("A descrição da tarefa não foi informada!");
       return;
     }
-    const list = [...tasks];
-    list.push({ ...newTask, id: String(Math.random()) });
-    setTasks([...list]);
-    setShowModal(false);
-    saveTask(newTask, user!.id);
+    createTask(newTask, user!.id)
+    toggleModal()
   };
 
   const filterTask = useCallback(async () => {
@@ -64,15 +62,11 @@ const useViewModel = (): TaskListViewModel => {
     setVisibleTasks(visibleTask);
   }, [showDoneTasks, tasks]);
 
-  const loadState = async (): Promise<void> => {
+  const loadState = useCallback(async (userId: string): Promise<void> => {
+
+    await getTasks(userId, setTasks);
     
-    const tasks = await getTasks(user!.id);
-    // const filter = await TaskService.getFilter();
-    if (tasks) {
-      setTasks(tasks);
-      setShowDoneTasks(true);
-    }
-  };
+  },[tasks, visibleTasks]); 
 
   const toggleFilter = async () => {
     setShowDoneTasks(!showDoneTasks);
@@ -93,6 +87,7 @@ const useViewModel = (): TaskListViewModel => {
     toggleModal,
     toggleFilter,
     loadState,
+    setTasks
   }
 }
 

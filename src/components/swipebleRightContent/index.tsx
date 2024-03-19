@@ -4,8 +4,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { styles } from "./styles";
 
 interface SwipebleRightProps {
-  taskId?: number;
-  action: (taskId: number | undefined) => void;
+  taskId: string;
+  action: (taskId: string) => void;
 }
 
 const SwipebleRightContent: React.FC<SwipebleRightProps> = ({
