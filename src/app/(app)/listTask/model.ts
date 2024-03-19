@@ -2,7 +2,7 @@ import { useSession } from "@/context";
 import { TaskProps, UserProps } from "@/types";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { Alert } from "react-native";
-import { createTask, deleteTask, getTasks, updateTask } from "../../../services/taskService";
+import { createTask, deleteTask, getFilter, getTasks, saveFilter, updateTask } from "../../../services/taskService";
 
 export interface TaskListViewModel {
   visibleTasks: TaskProps[],
@@ -20,7 +20,7 @@ export interface TaskListViewModel {
 }
 
 const useViewModel = (): TaskListViewModel => {
-  const {user: stringUser, signOut, isUserLoading} = useSession()
+  const {user: stringUser} = useSession()
   const user = stringUser? JSON.parse(stringUser!) as UserProps : null;
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [visibleTasks, setVisibleTasks] = useState<TaskProps[]>(tasks);
@@ -65,12 +65,14 @@ const useViewModel = (): TaskListViewModel => {
   const loadState = useCallback(async (userId: string): Promise<void> => {
 
     await getTasks(userId, setTasks);
+    const filter = await getFilter(userId)
+    setShowDoneTasks(filter)
     
   },[tasks, visibleTasks]); 
 
   const toggleFilter = async () => {
     setShowDoneTasks(!showDoneTasks);
-    // await TaskService.saveFilter(!showDoneTasks);
+    saveFilter(!showDoneTasks, user!.id);
   };
 
   const toggleModal = () => {

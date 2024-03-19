@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react"
-import { createNewAccount } from "../../services/database/userRespository";
+import { createNewAccount } from "../../services/userService";
 import { useSession } from "@/context";
 import { router } from "expo-router";
 import { Alert } from "react-native";

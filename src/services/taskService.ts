@@ -1,18 +1,12 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TaskProps } from "@/types";
-import { Dispatch, SetStateAction } from "react";
-import { addDoc, collection, onSnapshot, deleteDoc, doc, updateDoc, FieldValue } from "firebase/firestore";
-import { firestore } from "./database/firebaseConfig";
+import { AppState, TaskProps } from "@/types";
+import { addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { firestore } from "../config/firebaseConfig";
 
 
 
-export type AppState = {
-  filter: boolean,
-  tasks: TaskProps[]
-}
 export async function getTasks(userId: string, callback: (userId: any)=> void):Promise<void>{
   try {
-    const tasksRef = collection(firestore, 'tasks', userId, 'tasks')
+    const tasksRef = collection(firestore, 'users', userId, 'tasks')
      await onSnapshot(tasksRef, (result)=>{
       const data = result.docs;
       const list =  data.map( item => {
@@ -27,12 +21,12 @@ export async function getTasks(userId: string, callback: (userId: any)=> void):P
       callback(list)
     })        
   } catch (error:any) {
-  console.log(error.message)  
+    console.log(error.message)  
   }
 }
 
   export async function updateTask (task: TaskProps, userId: string): Promise<void> {
-    const ref = doc(firestore, "tasks", userId,"tasks", task.id!)
+    const ref = doc(firestore, "users", userId,"tasks", task.id!)
     const data ={
       description: task.description,
       estimatedAt: task.estimatedAt,
@@ -41,17 +35,22 @@ export async function getTasks(userId: string, callback: (userId: any)=> void):P
     await updateDoc(ref, data )
   }
   export async function createTask (task: TaskProps, userId: string): Promise<void> {
-    const ref = collection(firestore, 'tasks', userId, 'tasks')
+    const ref = collection(firestore, 'users', userId, 'tasks')
     await addDoc(ref, task )
   }
 
-  export async function getFilter (): Promise<boolean> {    
-    const filter = await AsyncStorage.getItem("filter");
-    return (filter === 'true');
+  export async function getFilter (userId: string): Promise<boolean> {    
+    const ref = doc(firestore, "users", userId)
+    const result = await getDoc(ref);
+    const data = result.data() as AppState
+    return data.filter || false;
   }
 
-  export async function  saveFilter (filter: boolean): Promise<void> {
-    AsyncStorage.setItem("filter", String(filter))
+  export async function  saveFilter (filter: boolean, userId: string): Promise<void> {
+    const ref = doc(firestore, "users", userId)
+    await updateDoc(ref, {filter} )
+
+
   }
 
   export async function deleteTask(userId: string, taskId: string): Promise<void> {

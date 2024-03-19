@@ -21,7 +21,7 @@ import { useSession } from "@/context";
 import { UserProps } from "@/types";
 
 const TaskList: React.FC = () => {
-  const today = moment().locale("pt-br").format("ddd, D [de] MMMM");
+  const today = moment().locale("pt-br").format("ddd, D [de] MMMM ");
   const { user: stringUser, isUserLoading, signOut } = useSession();
   const user = stringUser ? (JSON.parse(stringUser!) as UserProps) : null;
   const {

@@ -15,3 +15,9 @@ export type AuthProps = {
   user: UserProps,
   token: string
 }
+
+export type AppState = {
+  filter: boolean,
+  displayName: String,
+  email: string,
+}

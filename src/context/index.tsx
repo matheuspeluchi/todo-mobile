@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { authenticate, logout } from "../services/database/userRespository";
+import { authenticate, logout } from "../services/userService";
 import { UserProps } from "../types";
 import { useStorageState } from "./hooks/storageState";
 

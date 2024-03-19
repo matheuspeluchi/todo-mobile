@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { AuthProps, UserProps } from "../../types";
-import { auth, firestore } from "./firebaseConfig";
+import { AuthProps, UserProps } from "../types";
+import { auth, firestore } from "../config/firebaseConfig";
 
 export async function createNewAccount(email: string, password: string, name: string): Promise<UserProps | null> {
   try {
