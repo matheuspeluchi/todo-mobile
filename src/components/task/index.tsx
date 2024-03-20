@@ -25,7 +25,7 @@ const Task: React.FC<ITaskProps> = ({ task, toggle, action }) => {
   const date = doneAt ? doneAt : estimatedAt;
   const formattedDate = moment(date)
     .locale("pt-br")
-    .format("ddd, D [de] MMMM [às] hh:MM");
+    .format("dddd, D [de] MMMM [às] hh:MM");
   const removeTask = (direction: string) => {
     if (direction === "left") action(task.id!);
   };

@@ -13,7 +13,7 @@
       "@/*": [
         "./src/*"
       ],
-      "@/assets": [
+      "@assets/*": [
         "./assets/*"
       ],
       "@components/*": [

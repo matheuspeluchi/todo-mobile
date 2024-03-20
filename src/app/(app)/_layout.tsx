@@ -1,7 +1,9 @@
 import React from "react";
-import { Redirect, Stack } from "expo-router";
-import { SessionProvider, useSession } from "../../context";
+import { Redirect } from "expo-router";
+import { Drawer } from "expo-router/drawer";
 import { Text } from "react-native";
+import { useSession } from "../../context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
@@ -19,8 +21,36 @@ export default function AppLayout() {
     return <Redirect href="/login" />;
   }
 
-  // This layout can be deferred because it's not the root layout.
   return (
-    <Stack screenOptions={{ headerShown: false, headerShadowVisible: false }} />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Drawer
+        initialRouteName="/"
+        screenOptions={{
+          headerShown: false,
+          drawerType: "front",
+          title: "Hoje",
+        }}
+      >
+        <Drawer.Screen
+          name="month"
+          options={{
+            title: "Mês",
+          }}
+        />
+        <Drawer.Screen
+          name="week"
+          options={{
+            title: "Semana",
+          }}
+        />
+
+        <Drawer.Screen
+          name="tomorrow"
+          options={{
+            title: "Amanhã",
+          }}
+        />
+      </Drawer>
+    </GestureHandlerRootView>
   );
 }

@@ -1,10 +1,8 @@
 import React from "react";
-import TaskList from "./listTask";
+import TaskList from "../../screens/listTask";
 
-// import { Container } from './styles';
-
-const Home: React.FC = () => {
-  return <TaskList />;
+const Today: React.FC = () => {
+  return <TaskList title="Hoje" daysAhead={0} />;
 };
 
-export default Home;
+export default Today;

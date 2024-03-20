@@ -1,13 +1,15 @@
 import { AppState, TaskProps } from "@/types";
-import { addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { firestore } from "../config/firebaseConfig";
 
 
 
-export async function getTasks(userId: string, callback: (userId: any)=> void):Promise<void>{
+export async function getTasks(userId: string, callback: (userId: any)=> void, limit: Date):Promise<void>{
+
   try {
     const tasksRef = collection(firestore, 'users', userId, 'tasks')
-     await onSnapshot(tasksRef, (result)=>{
+    const find = query(tasksRef, where("estimatedAt", "<=", limit))
+     await onSnapshot(find, (result)=>{
       const data = result.docs;
       const list =  data.map( item => {
         const task = item.data();

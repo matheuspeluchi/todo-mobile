@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Image,
   ImageBackground,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { Button, TextInput } from "react-native-paper";
 import TodoIcon from "../../../assets/icon.png";
 import LoginImg from "../../../assets/imgs/login.jpg";
-import AuthInput from "../../components/authInput";
-import BaseContainer from "../../components/baseContainer";
 import { useViewModel } from "./model";
 import { styles } from "./styles";
 
@@ -27,7 +25,13 @@ const Login: React.FC = () => {
     name,
     setName,
     signinOrSignup,
+    isValidForm,
+    validateForm,
   } = useViewModel();
+
+  useEffect(() => {
+    validateForm();
+  }, [email, password]);
   return (
     <ImageBackground style={styles.background} source={LoginImg}>
       <View style={styles.header}>
@@ -39,46 +43,62 @@ const Login: React.FC = () => {
           {stageNew ? "Crie a sua conta" : "Informe seus dados"}
         </Text>
         {stageNew && (
-          <AuthInput
-            icon="user"
+          <TextInput
+            dense
+            error={!isValidForm && name != ""}
+            label="Nome"
             style={styles.input}
             placeholder="Nome"
             value={name}
             onChangeText={setName}
-          ></AuthInput>
+          />
         )}
-        <AuthInput
-          icon="at"
+        <TextInput
+          dense
+          error={!isValidForm && email != ""}
           style={styles.input}
-          placeholder="E-mail"
+          mode="flat"
+          label="Email"
+          placeholder="Informe seu email..."
           value={email}
+          right={<TextInput.Icon icon="at" />}
           onChangeText={setEmail}
         />
-        <AuthInput
-          icon="lock"
+
+        <TextInput
+          error={!isValidForm && password != ""}
+          dense
+          label="Senha"
           style={styles.input}
           placeholder="Senha"
           secureTextEntry={true}
           value={password}
+          right={<TextInput.Icon icon="eye" />}
           onChangeText={setPassword}
         />
         {stageNew && (
-          <AuthInput
-            icon="asterisk"
+          <TextInput
+            dense
+            label="Confirmação"
+            error={!isValidForm && confirmPassword != ""}
             style={styles.input}
             placeholder="Confirme a senha"
             secureTextEntry={true}
+            right={<TextInput.Icon icon="asterisk" />}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
           />
         )}
-        <TouchableOpacity onPress={signinOrSignup}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>
-              {stageNew ? "Registrar" : "Entrar"}
-            </Text>
-          </View>
-        </TouchableOpacity>
+
+        <Button
+          style={styles.button}
+          dark
+          mode="contained"
+          buttonColor={!isValidForm ? "surfaceDisabled" : ""}
+          onPress={!isValidForm ? () => null : signinOrSignup}
+        >
+          {stageNew ? "Registrar" : "Entrar"}
+        </Button>
         <TouchableOpacity onPress={() => setStageNew(!stageNew)}>
           <Text style={[styles.subTitle, { paddingTop: 20 }]}>
             {stageNew ? "Já possui uma conta?" : "Ainda não possui uma conta?"}

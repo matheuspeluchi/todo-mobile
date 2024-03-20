@@ -2,7 +2,7 @@ import { useSession } from "@/context";
 import { TaskProps, UserProps } from "@/types";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { Alert } from "react-native";
-import { createTask, deleteTask, getFilter, getTasks, saveFilter, updateTask } from "../../../services/taskService";
+import { createTask, deleteTask, getFilter, getTasks, saveFilter, updateTask } from "@/services/taskService";
 
 export interface TaskListViewModel {
   visibleTasks: TaskProps[],
@@ -12,7 +12,7 @@ export interface TaskListViewModel {
   addTask: (newTask: TaskProps) => void,
   filterTask: () => void,
   toggletask: (id: string) => void,
-  loadState: (userId: string) => void,
+  loadState: (userId: string, limit: Date) => void,
   toggleModal:  () => void,
   toggleFilter:  () => void,
   setTasks: Dispatch<SetStateAction<TaskProps[]>>
@@ -62,9 +62,8 @@ const useViewModel = (): TaskListViewModel => {
     setVisibleTasks(visibleTask);
   }, [showDoneTasks, tasks]);
 
-  const loadState = useCallback(async (userId: string): Promise<void> => {
-
-    await getTasks(userId, setTasks);
+  const loadState = useCallback(async (userId: string, limit: Date): Promise<void> => {
+    await getTasks(userId, setTasks, limit);
     const filter = await getFilter(userId)
     setShowDoneTasks(filter)
     

@@ -16,29 +16,49 @@ interface LoginViewModel {
   setConfirmPassword: Dispatch<SetStateAction<string>>,
   setStageNew: Dispatch<SetStateAction<boolean>>
   signinOrSignup: ()=>void,
+  validateForm: ()=> void,
+  isValidForm: boolean
 }
 
 export const useViewModel = (): LoginViewModel => {
   const {signIn}  = useSession();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('matheuspeluchi@gmail.com');
+  const [password, setPassword] = useState('Gisa2804*');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [stageNew, setStageNew] = useState(false);
+  const [ isValidForm, setIsValidForm] = useState(false);
 
-  const signinOrSignup = async (): Promise<void> =>{
+  const isValidEmail= (text:string) =>{
+    let exp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
+    return new RegExp(exp, 'g').test(text);
+  }
+
+  const validateForm = ()=>{
+    const validations = [];
+    validations.push(email != '' && isValidEmail(email))
+    validations.push(password.length >= 6)
     if(stageNew){
-      const user = await createNewAccount(email, password, name);
-      console.log(user)
+      validations.push(confirmPassword === password)
+      validations.push(name && name.trim().length >=3)
+    }
+
+    const isValid = validations.reduce((t,a)=> t && a) as boolean
+    setIsValidForm(isValid);
+  }
+  
+  const signinOrSignup = async (): Promise<void> =>{
+
+    if(stageNew){
+      await createNewAccount(email, password, name);
+      await signIn(email, password)
     }else{
       const isAuthenticated = await signIn(email, password,)
       if(isAuthenticated){
-        router.push("/")        
+        router.push("/listTask")        
       }else{
         Alert.alert("Usuário ou senha inválidos!")
       }
-      
-
     }
   }
 
@@ -54,5 +74,7 @@ export const useViewModel = (): LoginViewModel => {
     name,
     setName,
     signinOrSignup,
+    validateForm,
+    isValidForm
   }
 }

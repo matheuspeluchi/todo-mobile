@@ -9,19 +9,28 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import todayImg from "../../../../assets/imgs/today.jpg";
+import todayImg from "@assets/imgs/today.jpg";
 
 import AddTask from "../addTask";
 import useViewModel from "./model";
 import { styles } from "./styles";
-import BaseContainer from "../../../components/baseContainer";
-import commonStyles from "../../../commonStyles";
-import Task from "../../../components/task";
+
 import { useSession } from "@/context";
 import { UserProps } from "@/types";
+import BaseContainer from "@/components/baseContainer";
+import commonStyles from "@/commonStyles";
+import Task from "@/components/task";
 
-const TaskList: React.FC = () => {
+interface TaskListProps {
+  title?: string;
+  daysAhead?: number;
+}
+const TaskList: React.FC<TaskListProps> = ({
+  title = "Hoje",
+  daysAhead = 0,
+}) => {
   const today = moment().locale("pt-br").format("ddd, D [de] MMMM ");
+  const limit = moment().add({ days: daysAhead }).toDate();
   const { user: stringUser, isUserLoading, signOut } = useSession();
   const user = stringUser ? (JSON.parse(stringUser!) as UserProps) : null;
   const {
@@ -42,7 +51,7 @@ const TaskList: React.FC = () => {
   }, [filterTask, showDoneTasks]);
 
   useEffect(() => {
-    if (!isUserLoading && user) loadState(user!.id);
+    if (!isUserLoading && user) loadState(user!.id, limit);
   }, [isUserLoading]);
 
   return (
@@ -67,7 +76,7 @@ const TaskList: React.FC = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.titleBar}>
-            <Text style={styles.title}>Hoje</Text>
+            <Text style={styles.title}>{title}</Text>
             <Text style={styles.subtitle}>{today}</Text>
           </View>
         </ImageBackground>

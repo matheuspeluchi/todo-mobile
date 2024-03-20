@@ -5,7 +5,7 @@ import { SessionProvider } from "../context";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function Layout() {
+export default function Root() {
   const [fontsLoaded, fontError] = Font.useFonts({
     Lato: require("../../assets/fonts/Lato.ttf"),
     RobotoBlack: require("../../assets/fonts/Roboto-Black.ttf"),

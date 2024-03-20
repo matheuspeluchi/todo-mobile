@@ -36,28 +36,18 @@ export const styles = StyleSheet.create({
     marginBottom: 10
   },
   formContainer: {
-    backgroundColor: "rgba(0,0,0,0.6)",
+    // backgroundColor: "rgba(0,0,0,0.6)",
     padding: 20,
     width: "90%",    
   },
   input: {
     marginTop: 10,
-    backgroundColor: "#FFF",
-    padding: Platform.OS === 'ios'? 20 : 10
   },
   button: {
-    backgroundColor: "#080",
     marginTop: 15,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 7
+    fontSize: 30,
   },
-  buttonText: {
-    fontFamily: commonStyles.fontFamiy,
-    color: "#FFF",
-    fontSize: 20
-  },
+
 
 
 });

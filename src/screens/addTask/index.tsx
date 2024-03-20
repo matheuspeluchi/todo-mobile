@@ -9,10 +9,10 @@ import {
   View,
 } from "react-native";
 
-import DatePicker from "../../../components/dateTimePicker";
 import { styles } from "./styles";
-import { TaskProps } from "../../../services/taskService";
 import useViewModel from "./model";
+import { TaskProps } from "@/types";
+import DatePicker from "@/components/dateTimePicker";
 
 export interface AddTaskProps {
   onCancel?: () => void;
