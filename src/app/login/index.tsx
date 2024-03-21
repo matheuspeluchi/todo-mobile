@@ -11,6 +11,7 @@ import TodoIcon from "../../../assets/icon.png";
 import LoginImg from "../../../assets/imgs/login.jpg";
 import { useViewModel } from "./model";
 import { styles } from "./styles";
+import { signInGoogle } from "@/services/userService";
 
 const Login: React.FC = () => {
   const {
@@ -104,6 +105,14 @@ const Login: React.FC = () => {
             {stageNew ? "Já possui uma conta?" : "Ainda não possui uma conta?"}
           </Text>
         </TouchableOpacity>
+        <Button
+          dark
+          mode="contained"
+          buttonColor={!isValidForm ? "surfaceDisabled" : ""}
+          onPress={signInGoogle}
+        >
+          Login com Google
+        </Button>
       </View>
     </ImageBackground>
   );

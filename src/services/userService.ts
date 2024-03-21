@@ -1,7 +1,17 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from "firebase/auth";
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { AuthProps, UserProps } from "../types";
 import { auth, firestore } from "../config/firebaseConfig";
+import { AuthProps, UserProps } from "../types";
+
+GoogleSignin.configure({
+  webClientId: process.env.EXPO_PUBLIC_CLIENT_ID
+});
 
 export async function createNewAccount(email: string, password: string, name: string): Promise<UserProps | null> {
   try {
@@ -44,8 +54,18 @@ export async function authenticate(email: string, password: string):Promise<Auth
     
     throw new Error(String(error))
   }
- 
 
+}
+
+export async function signInGoogle(){
+  try {
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    console.log(userInfo)
+  } catch (error: any) {
+    console.log(error.message)
+    }
+  
 }
 
 export async function logout(): Promise<void>{

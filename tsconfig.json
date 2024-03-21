@@ -3,7 +3,9 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "images.dt.ts"
+    "images.dt.ts",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ],
   "compilerOptions": {
     "jsx": "react",

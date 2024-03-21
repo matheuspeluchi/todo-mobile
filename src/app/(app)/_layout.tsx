@@ -1,9 +1,15 @@
-import React from "react";
+import CustomDrawerContent from "@/components/customDrawerContent";
 import { Redirect } from "expo-router";
 import { Drawer } from "expo-router/drawer";
+import React from "react";
 import { Text } from "react-native";
-import { useSession } from "../../context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useTheme } from "react-native-paper";
+import { useSession } from "../../context";
+
+export type RootParamList = {
+  [key: string]: undefined;
+};
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
@@ -18,23 +24,38 @@ export default function AppLayout() {
   if (!session) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
-    return <Redirect href="/login" />;
+    return <Redirect href="/login/" />;
   }
+  const { colors } = useTheme();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
+        drawerContent={(props: any) => <CustomDrawerContent {...props} />}
         initialRouteName="/"
         screenOptions={{
           headerShown: false,
           drawerType: "front",
-          title: "Hoje",
+          drawerLabelStyle: {
+            fontFamily: "Roboto",
+            fontSize: 20,
+            color: colors.primary,
+          },
+
+          drawerActiveTintColor: colors.secondary,
         }}
       >
         <Drawer.Screen
-          name="month"
+          name="index"
           options={{
-            title: "Mês",
+            drawerLabel: "Hoje",
+            title: "Hoje",
+          }}
+        />
+        <Drawer.Screen
+          name="tomorrow"
+          options={{
+            title: "Amanhã",
           }}
         />
         <Drawer.Screen
@@ -43,11 +64,10 @@ export default function AppLayout() {
             title: "Semana",
           }}
         />
-
         <Drawer.Screen
-          name="tomorrow"
+          name="month"
           options={{
-            title: "Amanhã",
+            title: "Mês",
           }}
         />
       </Drawer>

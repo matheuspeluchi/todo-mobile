@@ -1,19 +1,28 @@
 import { StatusBar } from "expo-status-bar";
 import React, { ReactNode } from "react";
 import { View } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const BaseContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={{ flex: 1 }}>
-      <StatusBar
-        backgroundColor="transparent"
-        translucent
-        style="light"
-        animated
-      />
-      {children}
-    </View>
+    <SafeAreaProvider>
+      <View
+        style={{
+          flex: 1,
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        }}
+      >
+        <StatusBar backgroundColor="transparent" style="auto" animated />
+        {children}
+      </View>
+    </SafeAreaProvider>
   );
 };
 

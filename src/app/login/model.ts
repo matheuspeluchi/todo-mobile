@@ -55,7 +55,7 @@ export const useViewModel = (): LoginViewModel => {
     }else{
       const isAuthenticated = await signIn(email, password,)
       if(isAuthenticated){
-        router.push("/listTask")        
+        router.push("/")        
       }else{
         Alert.alert("Usuário ou senha inválidos!")
       }

@@ -15,7 +15,8 @@ const appConfig = {
       "backgroundColor": "#ffffff"
     },
     "experiments": {
-      "tsconfigPaths": true
+      "tsconfigPaths": true,
+      "typedRoutes": true
     },
     "assetBundlePatterns": [
       "**/*"
@@ -38,7 +39,8 @@ const appConfig = {
     },
     "plugins": [
       "expo-router",
-      "expo-secure-store",
+      "expo-secure-store",      
+      "@react-native-google-signin/google-signin",
       [
         "expo-font",
         {

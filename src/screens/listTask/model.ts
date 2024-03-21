@@ -3,6 +3,9 @@ import { TaskProps, UserProps } from "@/types";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { Alert } from "react-native";
 import { createTask, deleteTask, getFilter, getTasks, saveFilter, updateTask } from "@/services/taskService";
+import { useNavigation } from "expo-router";
+import {DrawerActions} from "@react-navigation/native"
+import { DrawerNavigationEventMap, DrawerNavigationProp } from "@react-navigation/drawer";
 
 export interface TaskListViewModel {
   visibleTasks: TaskProps[],
@@ -15,6 +18,7 @@ export interface TaskListViewModel {
   loadState: (userId: string, limit: Date) => void,
   toggleModal:  () => void,
   toggleFilter:  () => void,
+  toggleDrawer: ()=> void
   setTasks: Dispatch<SetStateAction<TaskProps[]>>
 
 }
@@ -26,6 +30,11 @@ const useViewModel = (): TaskListViewModel => {
   const [visibleTasks, setVisibleTasks] = useState<TaskProps[]>(tasks);
   const [showDoneTasks, setShowDoneTasks] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { dispatch } = useNavigation();
+
+  const toggleDrawer = () => {
+    dispatch(DrawerActions.toggleDrawer());
+  };
 
   const toggletask = (id: string) => {
     const taskList = [...tasks];
@@ -88,7 +97,8 @@ const useViewModel = (): TaskListViewModel => {
     toggleModal,
     toggleFilter,
     loadState,
-    setTasks
+    setTasks,
+    toggleDrawer
   }
 }
 
