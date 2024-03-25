@@ -22,7 +22,6 @@ const CustomDrawerContent: React.FC = (props: any) => {
     router.navigate("/login/");
   };
 
-  console.log(user);
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} scrollEnabled={false}>

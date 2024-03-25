@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { ReactNode } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -13,13 +13,17 @@ const BaseContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
       <View
         style={{
           flex: 1,
-          paddingTop: insets.top,
+          paddingTop: Platform.OS === "ios" ? insets.top : 0,
           paddingBottom: insets.bottom,
           paddingLeft: insets.left,
           paddingRight: insets.right,
         }}
       >
-        <StatusBar backgroundColor="transparent" style="inverted" animated />
+        <StatusBar
+          backgroundColor="transparent"
+          style={Platform.OS === "ios" ? "dark" : "light"}
+          animated
+        />
         {children}
       </View>
     </SafeAreaProvider>

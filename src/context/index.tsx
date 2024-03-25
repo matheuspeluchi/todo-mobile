@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-import { authenticate, logout, signInGoogle } from "../services/userService";
+import {
+  authenticate,
+  logout,
+  signInGoogle,
+  updateUser,
+} from "../services/userService";
 import { LoginType, UserProps } from "../types";
 import { useStorageState } from "./hooks/storageState";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -60,12 +65,13 @@ export function SessionProvider(props: React.PropsWithChildren) {
     if (type === LoginType.GOOGLE) {
       const userInfo = await signInGoogle();
       const { user: loggedUser, idToken } = userInfo!;
-      const user = {
+      const user: UserProps = {
         id: loggedUser.id,
         email: loggedUser.email,
-        name: loggedUser.name,
-        avatarUrl: loggedUser.photo,
+        name: loggedUser.name!,
+        avatarUrl: loggedUser.photo!,
       };
+      await updateUser(user);
       setUser(JSON.stringify(user));
       setSession(idToken);
       return true;

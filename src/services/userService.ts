@@ -6,7 +6,7 @@ import {
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import * as WebBrowser from 'expo-web-browser'
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { auth, firestore } from "../config/firebaseConfig";
+import { app, auth, firestore } from "../config/firebaseConfig";
 import { AuthProps, UserProps } from "../types";
 
 
@@ -72,4 +72,14 @@ export async function signInGoogle (){
 
 export async function logout(): Promise<void>{
   await signOut(auth)
+}
+
+export async function updateUser(user: UserProps): Promise<void>{
+  const ref = doc(firestore, 'users', user.id)
+  await setDoc(ref, {
+    avatarUrl: user.avatarUrl,
+    displayName: user.name,
+    email: user.email,
+  } )
+
 }

@@ -45,7 +45,10 @@ export async function getTasks(userId: string, callback: (userId: any)=> void, l
     const ref = doc(firestore, "users", userId)
     const result = await getDoc(ref);
     const data = result.data() as AppState
-    return data.filter || false;
+    if(data && data.filter)
+      return data.filter 
+
+    return false;
   }
 
   export async function  saveFilter (filter: boolean, userId: string): Promise<void> {
