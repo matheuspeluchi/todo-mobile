@@ -7,9 +7,9 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: 'center',
-    
-  }, 
-  header:{    
+
+  },
+  header: {
     flexDirection: 'row',
     alignItems: "center",
     marginLeft: "25%",
@@ -20,9 +20,9 @@ export const styles = StyleSheet.create({
     height: 64,
     marginRight: 10
   },
-  title:{
+  title: {
     fontFamily: commonStyles.fontFamiy,
-    fontStyle:'italic',
+    fontStyle: 'italic',
     fontWeight: 'bold',
     color: commonStyles.colors.secondary,
     fontSize: 70,
@@ -38,8 +38,8 @@ export const styles = StyleSheet.create({
   formContainer: {
     // backgroundColor: "rgba(0,0,0,0.6)",
     padding: 20,
-    width: "90%",    
-    
+    width: "90%",
+
   },
   input: {
     marginTop: 10,
@@ -48,7 +48,10 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 30,
   },
-
-
-
+  buttonGoogle: {
+    alignSelf: "center", 
+    width: "100%",
+    marginTop: 15,
+    fontSize: 30
+  }
 });

@@ -4,14 +4,11 @@ import {
   signOut
 } from "firebase/auth";
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-
+import * as WebBrowser from 'expo-web-browser'
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, firestore } from "../config/firebaseConfig";
 import { AuthProps, UserProps } from "../types";
 
-GoogleSignin.configure({
-  webClientId: process.env.EXPO_PUBLIC_CLIENT_ID
-});
 
 export async function createNewAccount(email: string, password: string, name: string): Promise<UserProps | null> {
   try {
@@ -56,17 +53,22 @@ export async function authenticate(email: string, password: string):Promise<Auth
   }
 
 }
-
-export async function signInGoogle(){
+export async function signInGoogle (){
+  WebBrowser.maybeCompleteAuthSession();
+  GoogleSignin.configure({
+    webClientId: process.env.EXPO_PUBLIC_CLIENT_ID,
+    forceCodeForRefreshToken: true
+  });
   try {
     await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
-    console.log(userInfo)
+    await GoogleSignin.signOut()
+    const userInfo = await GoogleSignin.signIn();    
+    return userInfo
   } catch (error: any) {
-    console.log(error.message)
-    }
-  
-}
+    console.log(error.message);
+    throw error;
+  }
+};
 
 export async function logout(): Promise<void>{
   await signOut(auth)

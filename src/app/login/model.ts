@@ -3,6 +3,7 @@ import { createNewAccount } from "../../services/userService";
 import { useSession } from "@/context";
 import { router } from "expo-router";
 import { Alert } from "react-native";
+import { LoginType } from "@/types";
 
 interface LoginViewModel {
   email: string,
@@ -15,9 +16,11 @@ interface LoginViewModel {
   setName: Dispatch<SetStateAction<string>>,
   setConfirmPassword: Dispatch<SetStateAction<string>>,
   setStageNew: Dispatch<SetStateAction<boolean>>
+  isLoading: boolean,
   signinOrSignup: ()=>void,
   validateForm: ()=> void,
-  isValidForm: boolean
+  isValidForm: boolean,
+  signInGoogle: ()=>void
 }
 
 export const useViewModel = (): LoginViewModel => {
@@ -28,6 +31,7 @@ export const useViewModel = (): LoginViewModel => {
   const [name, setName] = useState('');
   const [stageNew, setStageNew] = useState(false);
   const [ isValidForm, setIsValidForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const isValidEmail= (text:string) =>{
     let exp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
@@ -51,9 +55,9 @@ export const useViewModel = (): LoginViewModel => {
 
     if(stageNew){
       await createNewAccount(email, password, name);
-      await signIn(email, password)
+      await signIn(LoginType.USER_AND_PASSWORD, email, password)
     }else{
-      const isAuthenticated = await signIn(email, password,)
+      const isAuthenticated = await signIn(LoginType.USER_AND_PASSWORD, email, password,)
       if(isAuthenticated){
         router.push("/")        
       }else{
@@ -61,6 +65,15 @@ export const useViewModel = (): LoginViewModel => {
       }
     }
   }
+
+  const signInGoogle = async () => {
+    const isAuthenticated = await signIn(LoginType.GOOGLE);   
+    if(isAuthenticated){
+      router.push("/")        
+    }else{
+      Alert.alert("Usuário ou senha inválidos!")
+    }
+  };
 
   return { 
     email,
@@ -75,6 +88,8 @@ export const useViewModel = (): LoginViewModel => {
     setName,
     signinOrSignup,
     validateForm,
-    isValidForm
+    isValidForm,
+    signInGoogle,
+    isLoading
   }
 }

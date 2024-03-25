@@ -42,6 +42,12 @@ const appConfig = {
       "expo-secure-store",      
       "@react-native-google-signin/google-signin",
       [
+        "expo-dev-launcher",
+        {
+          "launchModeExperimental": "most-recent"
+        }
+      ],
+      [
         "expo-font",
         {
           "fonts": [

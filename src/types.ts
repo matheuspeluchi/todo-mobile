@@ -21,3 +21,8 @@ export type AppState = {
   displayName: String,
   email: string,
 }
+
+export enum LoginType {
+  USER_AND_PASSWORD,
+  GOOGLE
+}

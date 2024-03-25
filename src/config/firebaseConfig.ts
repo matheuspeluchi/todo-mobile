@@ -21,5 +21,5 @@ const firebaseConfig = {
 
 const persistence = Platform.OS === 'web' ? inMemoryPersistence as any : getReactNativePersistence(ReactNativeAsyncStorage);
 export const app = initializeApp(firebaseConfig);
-export const auth = initializeAuth(app, { persistence: persistence });
+export const auth = initializeAuth(app, { persistence });
 export const firestore = getFirestore(app);
