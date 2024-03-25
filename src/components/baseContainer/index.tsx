@@ -19,7 +19,7 @@ const BaseContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
           paddingRight: insets.right,
         }}
       >
-        <StatusBar backgroundColor="transparent" style="auto" animated />
+        <StatusBar backgroundColor="transparent" style="inverted" animated />
         {children}
       </View>
     </SafeAreaProvider>

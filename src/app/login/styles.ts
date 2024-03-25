@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
     // backgroundColor: "rgba(0,0,0,0.6)",
     padding: 20,
     width: "90%",    
+    
   },
   input: {
     marginTop: 10,

@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence} from "firebase/auth"
+import { initializeAuth, getReactNativePersistence, inMemoryPersistence } from "firebase/auth"
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-import {getFirestore} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { Platform } from 'react-native';
 
 // import {...} from "firebase/database";
 // import {...} from "firebase/functions";
@@ -18,6 +19,7 @@ const firebaseConfig = {
   measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID,
 };
 
+const persistence = Platform.OS === 'web' ? inMemoryPersistence as any : getReactNativePersistence(ReactNativeAsyncStorage);
 export const app = initializeApp(firebaseConfig);
-export const auth = initializeAuth(app, {persistence: getReactNativePersistence(ReactNativeAsyncStorage)});
+export const auth = initializeAuth(app, { persistence: persistence });
 export const firestore = getFirestore(app);

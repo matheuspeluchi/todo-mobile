@@ -9,6 +9,9 @@ package-lock.json
 .expo/
 dist/
 web-build/
+google-services.json
+android/
+ios/
 
 # Native
 *.orig.*
