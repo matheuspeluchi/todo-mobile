@@ -1,4 +1,5 @@
-import { logout } from "@/services/userService";
+import { useSession } from "@/context";
+import { UserProps } from "@/types";
 import {
   DrawerContentScrollView,
   DrawerItem,
@@ -10,15 +11,13 @@ import { View } from "react-native";
 import { Avatar, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { styles } from "./styles";
-import { useSession } from "@/context";
-import { UserProps } from "@/types";
 
 const CustomDrawerContent: React.FC = (props: any) => {
   const { colors } = useTheme();
   const { user: stringUser, isUserLoading, signOut } = useSession();
   const user = stringUser ? (JSON.parse(stringUser!) as UserProps) : null;
   const signout = () => {
-    logout();
+    signOut();
     router.navigate("/login/");
   };
 

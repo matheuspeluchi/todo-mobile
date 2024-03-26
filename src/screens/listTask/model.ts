@@ -3,9 +3,8 @@ import { TaskProps, UserProps } from "@/types";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { Alert } from "react-native";
 import { createTask, deleteTask, getFilter, getTasks, saveFilter, updateTask } from "@/services/taskService";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import {DrawerActions} from "@react-navigation/native"
-import { DrawerNavigationEventMap, DrawerNavigationProp } from "@react-navigation/drawer";
 
 export interface TaskListViewModel {
   visibleTasks: TaskProps[],
@@ -20,17 +19,19 @@ export interface TaskListViewModel {
   toggleFilter:  () => void,
   toggleDrawer: ()=> void
   setTasks: Dispatch<SetStateAction<TaskProps[]>>
+  signout: () => Promise<void>
 
 }
 
 const useViewModel = (): TaskListViewModel => {
-  const {user: stringUser} = useSession()
+  const {user: stringUser, signOut} = useSession()
   const user = stringUser? JSON.parse(stringUser!) as UserProps : null;
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [visibleTasks, setVisibleTasks] = useState<TaskProps[]>(tasks);
   const [showDoneTasks, setShowDoneTasks] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { dispatch } = useNavigation();
+  const { navigate } = useRouter();
 
   const toggleDrawer = () => {
     dispatch(DrawerActions.toggleDrawer());
@@ -86,6 +87,13 @@ const useViewModel = (): TaskListViewModel => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+
+  const signout = async ()=>{
+    await signOut()
+    navigate("/login/")
+  }
+
+
   return {
     visibleTasks,
     showDoneTasks,
@@ -98,7 +106,8 @@ const useViewModel = (): TaskListViewModel => {
     toggleFilter,
     loadState,
     setTasks,
-    toggleDrawer
+    toggleDrawer,
+    signout
   }
 }
 

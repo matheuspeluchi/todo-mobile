@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Slot, SplashScreen } from "expo-router";
 import * as Font from "expo-font";
-import { SessionProvider } from "../context";
+import SessionProvider from "../context";
 
 SplashScreen.preventAutoHideAsync();
 

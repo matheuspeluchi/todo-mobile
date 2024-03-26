@@ -34,7 +34,7 @@ const TaskList: React.FC<TaskListProps> = ({
 }) => {
   const currentDate = moment().locale("pt-br").format("ddd, D [de] MMMM ");
   const limit = moment().add({ days: daysAhead }).toDate();
-  const { user: stringUser, isUserLoading, signOut } = useSession();
+  const { user: stringUser, isUserLoading } = useSession();
   const user = stringUser ? (JSON.parse(stringUser!) as UserProps) : null;
   const getImage = () => {
     switch (daysAhead) {
@@ -61,6 +61,7 @@ const TaskList: React.FC<TaskListProps> = ({
     toggleFilter,
     loadState,
     toggleDrawer,
+    signout,
   } = useViewModel();
 
   useEffect(() => {
@@ -70,6 +71,7 @@ const TaskList: React.FC<TaskListProps> = ({
   useEffect(() => {
     if (!isUserLoading && user) loadState(user!.id, limit);
   }, [isUserLoading]);
+
   return (
     <View style={styles.root}>
       <AddTask visible={showModal} onCancel={toggleModal} onSave={addTask} />
@@ -86,7 +88,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 color={commonStyles.colors.secondary}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconToggle} onPress={signOut}>
+            <TouchableOpacity style={styles.iconToggle} onPress={signout}>
               <Icon
                 name="sign-out"
                 size={20}

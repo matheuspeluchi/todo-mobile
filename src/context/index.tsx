@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
+import { auth, firestore } from "@/config/firebaseConfig";
 import {
-  authenticate,
-  logout,
-  signInGoogle,
-  updateUser,
-} from "../services/userService";
-import { LoginType, UserProps } from "../types";
-import { useStorageState } from "./hooks/storageState";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
+  GoogleSignin,
+  User,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 import * as WebBrowser from "expo-web-browser";
-import { User } from "firebase/auth";
+import { signOut as logout, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { updateUser } from "../services/userService";
+import { AuthProps, LoginType, UserProps } from "../types";
+import { useStorageState } from "./hooks/storageState";
 
 const AuthContext = React.createContext<{
   signIn: (
@@ -32,8 +33,7 @@ const AuthContext = React.createContext<{
   isUserLoading: false,
 });
 
-// This hook can be used to access the user info.
-export function useSession() {
+export const useSession = () => {
   const value = React.useContext(AuthContext);
   if (process.env.NODE_ENV !== "production") {
     if (!value) {
@@ -42,9 +42,9 @@ export function useSession() {
   }
 
   return value;
-}
+};
 
-export function SessionProvider(props: React.PropsWithChildren) {
+const SessionProvider = (props: React.PropsWithChildren) => {
   const [[isLoading, session], setSession] = useStorageState("session");
   const [[isUserLoading, user], setUser] = useStorageState("user");
 
@@ -63,8 +63,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
       return false;
     }
     if (type === LoginType.GOOGLE) {
-      const userInfo = await signInGoogle();
-      const { user: loggedUser, idToken } = userInfo!;
+      const { user: loggedUser, idToken } = await signInGoogle();
       const user: UserProps = {
         id: loggedUser.id,
         email: loggedUser.email,
@@ -74,16 +73,64 @@ export function SessionProvider(props: React.PropsWithChildren) {
       await updateUser(user);
       setUser(JSON.stringify(user));
       setSession(idToken);
+
       return true;
     }
     return false;
   };
 
   const signOut = async () => {
-    await logout();
+    await logout(auth);
+    await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
     setSession(null);
   };
+
+  const signInGoogle = async () => {
+    try {
+      await GoogleSignin.signOut();
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+      const userInfo: User = await GoogleSignin.signIn();
+      return userInfo;
+    } catch (error: any) {
+      console.log("Error", error.code);
+      throw error.message;
+    }
+  };
+
+  async function authenticate(
+    email: string,
+    password: string
+  ): Promise<AuthProps> {
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const ref = doc(firestore, "users", user.uid);
+      const savedUser = await getDoc(ref);
+      const userData = savedUser.data()!;
+      const token = await user.getIdToken();
+      return {
+        user: {
+          id: savedUser.id,
+          email: userData.email,
+          name: userData.name,
+          avatarUrl: userData.avatarUrl,
+        },
+        token,
+      };
+    } catch (error) {
+      throw new Error(String(error));
+    }
+  }
+
+  useEffect(() => {
+    WebBrowser.maybeCompleteAuthSession();
+    GoogleSignin.configure({
+      webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
+      scopes: ["profile", "email"],
+    });
+  }, []);
   return (
     <AuthContext.Provider
       value={{ signIn, signOut, user, session, isLoading, isUserLoading }}
@@ -91,4 +138,6 @@ export function SessionProvider(props: React.PropsWithChildren) {
       {props.children}
     </AuthContext.Provider>
   );
-}
+};
+
+export default SessionProvider;
