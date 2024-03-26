@@ -41,7 +41,6 @@ export default function AppLayout() {
           drawerLabelStyle: {
             fontFamily: "Roboto",
             fontSize: 20,
-            color: colors.primary,
           },
 
           drawerActiveTintColor: colors.secondary,
