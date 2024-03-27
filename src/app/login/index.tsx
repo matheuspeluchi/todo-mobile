@@ -14,7 +14,6 @@ import TodoIcon from "../../../assets/icon.png";
 import LoginImg from "../../../assets/imgs/login.jpg";
 import { useViewModel } from "./model";
 import { styles } from "./styles";
-import * as Google from "expo-auth-session/providers/google";
 
 const Login: React.FC = () => {
   const {

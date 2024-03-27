@@ -26,8 +26,8 @@ interface LoginViewModel {
 
 export const useViewModel = (): LoginViewModel => {
   const { signIn } = useSession();
-  const [email, setEmail] = useState('matheuspeluchi@gmail.com');
-  const [password, setPassword] = useState('Gisa2804*');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [stageNew, setStageNew] = useState(false);
