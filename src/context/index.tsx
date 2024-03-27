@@ -6,7 +6,6 @@ import {
   User,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
-import * as WebBrowser from "expo-web-browser";
 import { signOut as logout, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { updateUser } from "../services/userService";
@@ -125,7 +124,6 @@ const SessionProvider = (props: React.PropsWithChildren) => {
   }
 
   useEffect(() => {
-    WebBrowser.maybeCompleteAuthSession();
     GoogleSignin.configure({
       webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
       scopes: ["profile", "email"],
