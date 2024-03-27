@@ -1,7 +1,7 @@
 import React from "react";
-import AddTask from "..";
 import { AddTaskViewModel } from "../model";
 import renderer from "react-test-renderer";
+import AddTask from "..";
 
 jest.mock("../model.ts", () => {
   return jest.fn().mockImplementation(

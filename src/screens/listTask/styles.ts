@@ -1,5 +1,5 @@
+import commonStyles from '@/commonStyles';
 import {Platform, StyleSheet} from 'react-native';
-import commonStyles from '../../commonStyles';
 
 export const styles = StyleSheet.create({
   root: {
@@ -32,9 +32,15 @@ export const styles = StyleSheet.create({
   },
   iconBar: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: Platform.OS === 'ios' ? 50 : 30,
+    
+  },
+  iconBarActions: {
+    flexDirection: 'row',
     marginHorizontal: 20,
     justifyContent: 'flex-end',
-    marginTop: Platform.OS === 'ios' ? 50 : 30,
     
   },
   iconToggle: {
@@ -51,7 +57,6 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 25,
-    backgroundColor: commonStyles.colors.today,
     alignItems: 'center',
     justifyContent: 'center',
   },

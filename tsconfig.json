@@ -1,6 +1,33 @@
 {
   "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "images.dt.ts",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ],
   "compilerOptions": {
-    "strict": true
+    "jsx": "react",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@firebase/auth": [
+        "./node_modules/@firebase/auth/dist/index.rn.d.ts"
+      ]
+    },
+    "experimentalDecorators": true
   }
 }
