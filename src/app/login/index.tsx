@@ -89,7 +89,7 @@ const Login: React.FC = () => {
               label="Confirmação"
               error={!isValidForm && confirmPassword != ""}
               style={styles.input}
-              placeholder="Confirme a senha"
+              placeholder="Confirme sua senha"
               secureTextEntry={true}
               right={<TextInput.Icon icon="asterisk" />}
               value={confirmPassword}
