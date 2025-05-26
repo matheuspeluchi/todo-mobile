@@ -5,7 +5,7 @@ const appConfig = {
     "name": "Todo",
     "slug": "todo",
     "scheme": "todo",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -39,7 +39,7 @@ const appConfig = {
     },
     "plugins": [
       "expo-router",
-      "expo-secure-store",      
+      "expo-secure-store",
       "@react-native-google-signin/google-signin",
       [
         "expo-dev-launcher",
