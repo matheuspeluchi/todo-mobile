@@ -13,6 +13,7 @@
     },
     "production": {
       "android": {
+        "minSdkVersion": 35,
         "image": "latest",
         "autoIncrement": true
       },
