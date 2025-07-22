@@ -1,24 +1,30 @@
 {
   "cli": {
     "version": ">= 7.5.0",
-    appVersionSource: "remote"
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
+      "targetSdkVersion": 35,
+      "compileSdkVersion": 35,
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
+      "targetSdkVersion": 35,
+      "compileSdkVersion": 35,
       "distribution": "internal"
     },
     "production": {
       "android": {
+        "targetSdkVersion": 35,
+        "compileSdkVersion": 35,
         "image": "latest",
         "autoIncrement": true
       },
       "ios": {
         "image": "latest",
-        "autoIncrement": true 
+        "autoIncrement": true
       }
     }
   },
