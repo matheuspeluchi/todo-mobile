@@ -5,20 +5,14 @@
   },
   "build": {
     "development": {
-      "targetSdkVersion": 35,
-      "compileSdkVersion": 35,
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
-      "targetSdkVersion": 35,
-      "compileSdkVersion": 35,
       "distribution": "internal"
     },
     "production": {
       "android": {
-        "targetSdkVersion": 35,
-        "compileSdkVersion": 35,
         "image": "latest",
         "autoIncrement": true
       },
