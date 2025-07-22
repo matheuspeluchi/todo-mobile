@@ -47,7 +47,7 @@ const Login: React.FC = () => {
         </View>
         <View style={styles.formContainer}>
           <Text style={styles.subTitle}>
-            {stageNew ? "Crie a sua conta" : "Informe seus dados"}
+            {stageNew ? "Crie a sua conta" : "Informe os dados"}
           </Text>
           {stageNew && (
             <TextInput
