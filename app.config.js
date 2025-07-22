@@ -26,8 +26,7 @@ const appConfig = {
       "bundleIdentifier": "com.matheuspeluchi.todo"
     },
     "android": {
-      "compileSdkVersion": 35,
-      "targetSdkVersion": 35,
+      "minSdkVersion": 35,
       "googleServicesFile": process.env.GOOGLE_SERVICES_JSON,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
