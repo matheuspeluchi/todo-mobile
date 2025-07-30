@@ -27,6 +27,7 @@ const appConfig = {
     },
     "android": {
       "targetSdkVersion": 35,
+      "compileSdkVersion": 35,
       "googleServicesFile": process.env.GOOGLE_SERVICES_JSON,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
