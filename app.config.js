@@ -5,7 +5,7 @@ const appConfig = {
     "name": "Todo",
     "slug": "todo",
     "scheme": "todo",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
