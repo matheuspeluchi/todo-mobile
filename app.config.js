@@ -26,6 +26,7 @@ const appConfig = {
       "bundleIdentifier": "com.matheuspeluchi.todo"
     },
     "android": {
+      "minSdkVersion": 35,
       "targetSdkVersion": 35,
       "compileSdkVersion": 35,
       "googleServicesFile": process.env.GOOGLE_SERVICES_JSON,
