@@ -5,7 +5,7 @@ const appConfig = {
     "name": "Todo",
     "slug": "todo",
     "scheme": "todo",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -26,7 +26,7 @@ const appConfig = {
       "bundleIdentifier": "com.matheuspeluchi.todo"
     },
     "android": {
-      "minSdkVersion": 35,
+      "targetSdkVersion": 35,
       "googleServicesFile": process.env.GOOGLE_SERVICES_JSON,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
