@@ -48,7 +48,7 @@ const appConfig = {
       [
         "expo-dev-launcher",
         {
-          "launchModeExperimental": "most-recent"
+          "launchMode": "most-recent"
         }
       ],
       [
