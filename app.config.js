@@ -5,7 +5,7 @@ const appConfig = {
     "name": "Todo",
     "slug": "todo",
     "scheme": "todo",
-    "version": "1.1.4",
+    "version": "1.1.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,6 +29,7 @@ const appConfig = {
       "minSdkVersion": 35,
       "targetSdkVersion": 35,
       "compileSdkVersion": 35,
+      "image": "latest",
       "googleServicesFile": process.env.GOOGLE_SERVICES_JSON,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
